@@ -17,8 +17,10 @@ if ($stdin.tty? && ARGV.empty?) || ARGV.delete('-h') || ARGV.delete('--help')
   help
 else
   # Well, lets read those files
+  compress = !!ARGV.delete('--compress')
+  paths = [File.dirname(ARGF.path)]
   doc = ARGF.read
-  parser = Less::Parser.new
+  parser = Less::Parser.new :paths => paths
   tree = parser.parse(doc)
-  puts tree.to_css(:compress => true)
+  puts tree.to_css(:compress => compress)
 end
